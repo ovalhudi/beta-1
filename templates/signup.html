@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css') }}">
+</head>
+<body>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div id="messageContainer" class="message-container"></div>
+        <p>Sudah punya akun? <a href="{{ url_for('login') }}">Login</a></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCVoGqdkgIGVLnzkz1rnzhH3xGGH6b0sY",
+            authDomain: "data-halaqoh.firebaseapp.com",
+            projectId: "data-halaqoh",
+            storageBucket: "data-halaqoh.appspot.com",
+            messagingSenderId: "256908326956",
+            appId: "1:256908326956:web:5e42affd9bc9b258f13989",
+            measurementId: "G-RB2XT6BP9H"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageContainer = document.getElementById('messageContainer');
+
+            if (password !== confirmPassword) {
+                messageContainer.textContent = 'Password dan konfirmasi password tidak cocok';
+                messageContainer.className = 'message-container error';
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    return user.getIdToken();
+                })
+                .then((idToken) => {
+                    return fetch('/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `idToken=${idToken}`
+                    });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        messageContainer.textContent = data.message;
+                        messageContainer.className = 'message-container success';
+                        // Redirect ke halaman login setelah 3 detik
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 3000);
+                    } else {
+                        messageContainer.textContent = 'Signup gagal: ' + data.error;
+                        messageContainer.className = 'message-container error';
+                    }
+                })
+                .catch((error) => {
+                    messageContainer.textContent = 'Signup error: ' + error.message;
+                    messageContainer.className = 'message-container error';
+                });
+        });
+    </script>
+</body>
+</html>

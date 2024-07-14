@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MTA</title>
+
+  <link rel="stylesheet" href="/home/home.css">
+
+ 
+</head>
+<body>
+  <div class="container">
+    <h1 class="judulatas">Tampilan Data Pondok Pesantren</h1>
+
+    <div class="grid-container" >
+      <div class="grid-item" onclick="toDatasantri()">
+        <h3>Data Santri</h3>
+        <p id="totalSantri">Loading...</p>
+       
+        <script>
+          function toDatasantri() {
+            window.location.href = "/datasantri/";
+          }
+        </script>
+      </div>
+
+      <div class="grid-item" onclick="toSetoranSantri()">
+        <script>
+          function toSetoranSantri() {
+            window.location.href = "/absensi/";
+          }
+        </script>
+       
+        <h3>Setoran Baru</h3>
+        <p id="DateToDay">Loading ... </p>
+       
+      </div>
+
+      <div class="grid-item" onclick="toDataSetoran()">
+        <script>
+          function toDataSetoran() {
+            window.location.href = "/datasetoran/";
+          }
+        </script>
+        <h3>Data Setoran</h3>
+        <p>Total Setoran: [-]</p>
+        
+      </div>
+
+      <div class="grid-item" onclick="totargetmingguan()">
+        <script>
+          function totargetmingguan() {
+            window.location.href = "/targetmingguan/";
+          }
+        </script>
+        <h3>Target Mingguan</h3>
+        <p>Target: [5 Halaman]</p>
+        
+      </div>
+      
+
+      <div class="grid-item" onclick="pendaftaran()">
+        <script>
+          function pendaftaran() {
+            window.location.href="/form-pendaftaran-santri/";
+          }
+        </script>
+        <h3>Pendaftaran Santri Baru</h3>
+        <p>Pendaftaran Dibuka: [Status Pendaftaran]</p>
+       
+      </div>
+
+      <div class="grid-item" onclick="todataguru()">
+        <script>
+          function todataguru(){
+            window.location.href="/data-guru/";
+          }
+        </script>
+        <h3>Data Guru</h3>
+        <p>Jumlah Guru: [Jumlah Guru]</p>
+       
+      </div>
+    </div>
+  </div>
+<script type="module" src="datasantri/datasantri.js"></script>
+<script type="module" src="script.js"></script>
+  <!-- <script src="https://jquery.com/" crossorigin="anonymous"></script>
+  <script src="https://getbootstrap.com/docs/5.2/getting-started/introduction/"></script> -->
+</body>
+</html>
